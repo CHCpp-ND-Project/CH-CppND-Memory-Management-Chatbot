@@ -131,8 +131,9 @@ ChatBotPanelDialog::ChatBotPanelDialog(wxWindow *parent, wxWindowID id)
 
     // create chat logic instance
     std::cout<<"NEW Chatlogic Chatgui.cpp Creating instance of ChatLogic"<<std::endl;
-    std::unique_ptr<ChatLogic> _chatLogic = std::make_unique<new ChatLogic()>;
-
+    //std::unique_ptr<ChatLogic> _chatLogic(new ChatLogic());
+    _chatLogic = std::make_unique<ChatLogic>();
+    //_chatLogic.reset(new ChatLogic());
     //_chatLogic = new ChatLogic(); 
 
     // pass pointer to chatbot dialog so answers can be displayed in GUI
