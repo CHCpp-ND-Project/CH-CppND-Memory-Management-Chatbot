@@ -18,6 +18,8 @@ ChatLogic::ChatLogic()
     ////
 
     // create instance of chatbot
+    std::cout<<"NEW Chatbot in chatlogic.cpp Calling constructor new _chatbot from image (chatlogic.cpp)"<<std::endl;
+
     _chatBot = new ChatBot("../images/chatbot.png");
 
     // add pointer to chatlogic so that chatbot answers can be passed on to the GUI
@@ -34,19 +36,23 @@ ChatLogic::~ChatLogic()
 
     // delete chatbot instance
     delete _chatBot;
+    
+    std::cout<<"in chatlogic.cpp Deleting all nodes"<<std::endl;
 
     // delete all nodes
     for (auto it = std::begin(_nodes); it != std::end(_nodes); ++it)
     {
+        std::cout<<"                          DELETE _node in chatlogic.cpp Deleting node"<<std::endl;
         delete *it;
     }
-
+    std::cout<<"in chatlogic.cpp Deleting all edges"<<std::endl;
     // delete all edges
     for (auto it = std::begin(_edges); it != std::end(_edges); ++it)
     {
+        std::cout<<"                          DELETE _edges in chatlogic.cpp Deleting edge"<<std::endl;
         delete *it;
     }
-
+    
     ////
     //// EOF STUDENT CODE
 }
@@ -74,6 +80,7 @@ void ChatLogic::AddAllTokensToElement(std::string tokenID, tokenlist &tokens, T 
 void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
 {
     // load file with answer graph elements
+    std::cout<<"Load Answer Graph from file...."<<std::endl;
     std::ifstream file(filename);
 
     // check for file availability and process it line by line
@@ -132,6 +139,7 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                         // create new element if ID does not yet exist
                         if (newNode == _nodes.end())
                         {
+                            std::cout<<"NEW GraphNode Create new node: "<< id << std::endl;
                             _nodes.emplace_back(new GraphNode(id));
                             newNode = _nodes.end() - 1; // get iterator to last element
 
@@ -160,6 +168,7 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                             auto childNode = std::find_if(_nodes.begin(), _nodes.end(), [&childToken](GraphNode *node) { return node->GetID() == std::stoi(childToken->second); });
 
                             // create new edge
+                            std::cout<<"NEW GraphEdge Create new edge"<<std::endl;
                             GraphEdge *edge = new GraphEdge(id);
                             edge->SetChildNode(*childNode);
                             edge->SetParentNode(*parentNode);

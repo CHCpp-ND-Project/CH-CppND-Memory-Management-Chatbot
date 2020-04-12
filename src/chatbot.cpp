@@ -11,8 +11,9 @@
 // constructor WITHOUT memory allocation
 ChatBot::ChatBot()
 {
+    std::cout<<"Creating chatbot object"<<std::endl;
     // invalidate data handles
-    _image = nullptr;
+    _image = NULL;
     _chatLogic = nullptr;
     _rootNode = nullptr;
 }
@@ -20,23 +21,25 @@ ChatBot::ChatBot()
 // constructor WITH memory allocation
 ChatBot::ChatBot(std::string filename)
 {
-    std::cout << "ChatBot Constructor" << std::endl;
     
     // invalidate data handles
     _chatLogic = nullptr;
     _rootNode = nullptr;
 
     // load image into heap memory
+    std::cout << "NEW _image in chatbot.cpp ChatBot Constructor with filename" << std::endl;
+
     _image = new wxBitmap(filename, wxBITMAP_TYPE_PNG);
 }
 
 ChatBot::~ChatBot()
 {
-    std::cout << "ChatBot Destructor" << std::endl;
+    std::cout << "in chatbot.cpp ChatBot Destructor" << std::endl;
 
     // deallocate heap memory
     if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
     {
+        std::cout << "                          DELETE _image in chatbot.cpp not NULL, deleting" << std::endl;    
         delete _image;
         _image = NULL;
     }
@@ -50,6 +53,8 @@ ChatBot::~ChatBot()
 
 void ChatBot::ReceiveMessageFromUser(std::string message)
 {
+    std::cout<<"in chatbot.cpp Receiving Message from user..."<<std::endl;
+
     // loop over all edges and keywords and compute Levenshtein distance to query
     typedef std::pair<GraphEdge *, int> EdgeDist;
     std::vector<EdgeDist> levDists; // format is <ptr,levDist>
@@ -84,6 +89,8 @@ void ChatBot::ReceiveMessageFromUser(std::string message)
 
 void ChatBot::SetCurrentNode(GraphNode *node)
 {
+    std::cout<<"in chatbot.cpp Set pointer to current node"<<std::endl;
+
     // update pointer to current node
     _currentNode = node;
 
@@ -99,6 +106,8 @@ void ChatBot::SetCurrentNode(GraphNode *node)
 
 int ChatBot::ComputeLevenshteinDistance(std::string s1, std::string s2)
 {
+    std::cout<<"in chatbot.cpp Compute Levenshtein distance"<<std::endl;
+
     // convert both strings to upper-case before comparing
     std::transform(s1.begin(), s1.end(), s1.begin(), ::toupper);
     std::transform(s2.begin(), s2.end(), s2.begin(), ::toupper);
@@ -111,6 +120,7 @@ int ChatBot::ComputeLevenshteinDistance(std::string s1, std::string s2)
         return n;
     if (n == 0)
         return m;
+    std::cout << "NEW Costs in chatbot.cpp ChatBot Constructor with filename" << std::endl;
 
     size_t *costs = new size_t[n + 1];
 
@@ -142,6 +152,7 @@ int ChatBot::ComputeLevenshteinDistance(std::string s1, std::string s2)
     }
 
     int result = costs[n];
+    std::cout << "                          DELETE  costs in chatbot.cpp not NULL, deleting" << std::endl;    
     delete[] costs;
 
     return result;

@@ -18,7 +18,7 @@ private:
 
     // data handles (owned)
     std::vector<GraphNode *> _nodes;
-    std::vector<GraphEdge *> _edges;
+    std::vector<GraphEdge *> _edges;                // this leaves eventually to match final version to be handeled by _nodes
 
     ////
     //// EOF STUDENT CODE

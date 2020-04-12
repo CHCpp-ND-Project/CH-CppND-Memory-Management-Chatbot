@@ -1,17 +1,20 @@
+#include <iostream>             // remove later after debug
 #include "graphedge.h"
 #include "graphnode.h"
 
 GraphNode::GraphNode(int id)
 {
     _id = id;
+    //instantiate the null pointer according to wxWidgets instead of nullptr
+    _chatBot = NULL;  // delete later?    
 }
 
 GraphNode::~GraphNode()
 {
     //// STUDENT CODE
     ////
-
-    delete _chatBot; 
+    std::cout<<"                          DELETE _chatbot graphnode.cpp Deleting _chatbot"<<std::endl;
+    //delete _chatBot; 
 
     ////
     //// EOF STUDENT CODE

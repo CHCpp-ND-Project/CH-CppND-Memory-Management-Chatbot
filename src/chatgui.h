@@ -1,5 +1,7 @@
 #ifndef CHATGUI_H_
 #define CHATGUI_H_
+//add memory library to enable smartpointer utilization
+#include <memory>
 
 #include <wx/wx.h>
 
@@ -15,8 +17,10 @@ private:
 
     //// STUDENT CODE
     ////
+    // Make _chatLogic an exclusive resource to class using a unique pointer
+    std::unique_ptr<ChatLogic> _chatLogic;
 
-    ChatLogic *_chatLogic;
+    //removed ChatLogic *_chatLogic;
 
     ////
     //// EOF STUDENT CODE
@@ -27,7 +31,7 @@ public:
     ~ChatBotPanelDialog();
 
     // getter / setter
-    ChatLogic *GetChatLogicHandle() { return _chatLogic; }
+    ChatLogic *GetChatLogicHandle() { return _chatLogic.get(); }
 
     // events
     void paintEvent(wxPaintEvent &evt);

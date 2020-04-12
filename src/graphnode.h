@@ -17,8 +17,9 @@ private:
 
     // data handles (owned)
     std::vector<GraphEdge *> _childEdges;  // edges to subsequent nodes
-
-    // data handles (not owned)
+    // _id and _answers
+    
+    // data handles (not owned) 
     std::vector<GraphEdge *> _parentEdges; // edges to preceding nodes 
     ChatBot *_chatBot;
 
