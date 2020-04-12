@@ -34,8 +34,7 @@ ChatBot::ChatBot(std::string filename)
 
 ChatBot::~ChatBot()
 {
-    std::cout << "in chatbot.cpp ChatBot Destructor" << std::endl;
-
+    std::cout << "Rule 1 of 5: Destructor in chatbot.cpp, DELETING: " << this << std::endl;
     // deallocate heap memory
     if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
     {
@@ -47,6 +46,55 @@ ChatBot::~ChatBot()
 
 //// STUDENT CODE
 ////
+ChatBot::ChatBot(const ChatBot &source)
+{
+    std::cout<< "Rule 2 of 5: Copy Constructor, COPYING:" <<&source<< "to insance " << this << std::endl;
+    //_image = new 
+    //_image = source._image;
+    _image = new wxBitmap;
+    *_image = *source._image;
+    _chatLogic = source._chatLogic;
+    _rootNode = source._rootNode;
+}
+ChatBot& ChatBot::operator=(const ChatBot &source)
+{
+    std::cout<< "Rule 3 of 5: Copy Assignment Operator, assigning:" <<&source<< "to instance " << this << std::endl;
+    if (this == &source)    // boiler plate to protect against self assignment
+        return *this;
+    delete[] _image;
+    _image = new wxBitmap;
+    *_image = *source._image;
+    _chatLogic = source._chatLogic;
+    _rootNode = source._rootNode;
+    return *this;
+}
+ChatBot::ChatBot(ChatBot &&source)
+{
+    std::cout<< "Rule 4 of 5: Move Constructor, moving:" <<&source<< "to instance " << this << std::endl;
+    _image = source._image;
+    _chatLogic = source._chatLogic;
+    _rootNode = source._rootNode;
+    source._image = NULL;
+    source._chatLogic = nullptr;
+    source._rootNode = nullptr;
+}
+
+ChatBot& ChatBot::operator=(ChatBot &&source)
+{
+    std::cout<< "Rule 5 of 5: Move Assignment Operator, moving:" <<&source<< "to instance " << this << std::endl;
+    if (this == &source)    // boiler plate to protect against self assignment
+        return *this;
+    delete[] _image;
+    _image = source._image;
+    _chatLogic = source._chatLogic;
+    _rootNode = source._rootNode;
+    source._image = NULL;
+    source._chatLogic = nullptr;
+    source._rootNode = nullptr;
+    return *this;
+
+}
+
 
 ////
 //// EOF STUDENT CODE
