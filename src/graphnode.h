@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 #include "chatbot.h"
-
+#include <memory>
 
 // forward declarations
 class GraphEdge;
@@ -16,7 +16,9 @@ private:
     ////
 
     // data handles (owned)
-    std::vector<GraphEdge *> _childEdges;  // edges to subsequent nodes
+    // Vector of Unique pointers of owned childEdges
+    std::vector<std::unique_ptr<GraphEdge>> _childEdges;
+    //   std::vector<GraphEdge *> _childEdges;  // edges to subsequent nodes
     // _id and _answers
     
     // data handles (not owned) 

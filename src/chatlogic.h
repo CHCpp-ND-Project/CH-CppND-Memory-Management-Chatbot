@@ -21,7 +21,8 @@ private:
     std::vector<std::unique_ptr<GraphNode>> _nodes;
 
     //std::vector<GraphNode *> _nodes;
-    std::vector<GraphEdge *> _edges;                // this leaves eventually to match final version to be handeled by _nodes
+    // transfer graphedges ownership to nodes
+    std::vector<GraphEdge *> _edges;
 
     ////
     //// EOF STUDENT CODE
