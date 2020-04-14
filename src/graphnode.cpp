@@ -1,21 +1,19 @@
 #include <iostream>             // remove later after debug
 #include "graphedge.h"
 #include "graphnode.h"
+#include "chatlogic.h"
+#include <memory>
 
 GraphNode::GraphNode(int id)
 {
     _id = id;
-    //instantiate the null pointer according to wxWidgets instead of nullptr
-    _chatBot = NULL;  // delete later?    
 }
 
 GraphNode::~GraphNode()
 {
     //// STUDENT CODE
     ////
-    std::cout<<"                          DELETE _chatbot graphnode.cpp Deleting _chatbot"<<std::endl;
-    //delete _chatBot; 
-
+    // std::cout<<"                          DESTRUCTOR for graphnode.cpp"<<std::endl;
     ////
     //// EOF STUDENT CODE
 }
@@ -30,23 +28,23 @@ void GraphNode::AddEdgeToParentNode(GraphEdge *edge)
     _parentEdges.push_back(edge);
 }
 
-void GraphNode::AddEdgeToChildNode(GraphEdge *edge)
+void GraphNode::AddEdgeToChildNode(std::unique_ptr<GraphEdge> edge)
 {
-    _childEdges.emplace_back(std::unique_ptr<GraphEdge>(edge));
+    _childEdges.push_back(std::move(edge));
 }
 
 //// STUDENT CODE
 ////
-void GraphNode::MoveChatbotHere(ChatBot *chatbot)
+
+void GraphNode::MoveChatbotHere(ChatBot chatbot)
 {
-    _chatBot = chatbot;
-    _chatBot->SetCurrentNode(this);
+    _chatBot = std::move(chatbot);
+    _chatBot.SetCurrentNode(this);
 }
 
 void GraphNode::MoveChatbotToNewNode(GraphNode *newNode)
 {
-    newNode->MoveChatbotHere(_chatBot);
-    _chatBot = nullptr; // invalidate pointer at source
+    newNode->MoveChatbotHere(std::move(_chatBot));
 }
 ////
 //// EOF STUDENT CODE

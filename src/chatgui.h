@@ -18,9 +18,7 @@ private:
     //// STUDENT CODE
     ////
     // Make _chatLogic an exclusive resource to class using a unique pointer
-    std::unique_ptr<ChatLogic> _chatLogic;
-
-    //removed ChatLogic *_chatLogic;
+    std::unique_ptr<ChatLogic> _chatLogic;    //removed raw pointer ChatLogic *_chatLogic; 
 
     ////
     //// EOF STUDENT CODE

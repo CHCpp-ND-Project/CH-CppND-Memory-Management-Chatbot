@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include "chatgui.h"
+#include <memory>
 
 // forward declarations
 class ChatBot;
@@ -15,15 +16,11 @@ class ChatLogic
 private:
     //// STUDENT CODE
     ////
-
     // data handles (owned)
     // Exclusive ownership of nodes vector by ChatLogic:
     std::vector<std::unique_ptr<GraphNode>> _nodes;
-
-    //std::vector<GraphNode *> _nodes;
+    // Remove raw pointer std::vector<GraphNode *> _nodes;
     // transfer graphedges ownership to nodes
-    std::vector<GraphEdge *> _edges;
-
     ////
     //// EOF STUDENT CODE
 

@@ -11,9 +11,9 @@
 // constructor WITHOUT memory allocation
 ChatBot::ChatBot()
 {
-    std::cout<<"Creating chatbot object"<<std::endl;
+    std::cout<<"ChatBot Constructor"<<std::endl;
     // invalidate data handles
-    _image = NULL;
+    _image = nullptr;
     _chatLogic = nullptr;
     _rootNode = nullptr;
 }
@@ -27,7 +27,7 @@ ChatBot::ChatBot(std::string filename)
     _rootNode = nullptr;
 
     // load image into heap memory
-    std::cout << "NEW _image in chatbot.cpp ChatBot Constructor with filename" << std::endl;
+    std::cout << "ChatBot Constructor with filename" << std::endl;
 
     _image = new wxBitmap(filename, wxBITMAP_TYPE_PNG);
 }
@@ -38,7 +38,7 @@ ChatBot::~ChatBot()
     // deallocate heap memory
     if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
     {
-        std::cout << "                          DELETE _image in chatbot.cpp not NULL, deleting" << std::endl;    
+        // debug // std::cout << "                          DELETE _image in chatbot.cpp not NULL, deleting" << std::endl;    
         delete _image;
         _image = NULL;
     }
@@ -46,51 +46,56 @@ ChatBot::~ChatBot()
 
 //// STUDENT CODE
 ////
-ChatBot::ChatBot(const ChatBot &source)
+ChatBot::ChatBot(ChatBot &source)
 {
-    std::cout<< "Rule 2 of 5: Copy Constructor, COPYING:" <<&source<< "to insance " << this << std::endl;
+    std::cout<< "Rule 2 of 5: Copy Constructor, COPYING:" <<&source<< " to insance " << this << std::endl;
     //_image = new 
     //_image = source._image;
     _image = new wxBitmap;
     *_image = *source._image;
     _chatLogic = source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
     _rootNode = source._rootNode;
 }
-ChatBot& ChatBot::operator=(const ChatBot &source)
+ChatBot& ChatBot::operator=(ChatBot &source)
 {
-    std::cout<< "Rule 3 of 5: Copy Assignment Operator, assigning:" <<&source<< "to instance " << this << std::endl;
+    std::cout<< "Rule 3 of 5: Copy Assignment Operator, assigning:" <<&source<< " to instance " << this << std::endl;
     if (this == &source)    // boiler plate to protect against self assignment
         return *this;
     delete[] _image;
     _image = new wxBitmap;
     *_image = *source._image;
     _chatLogic = source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
     _rootNode = source._rootNode;
+    
     return *this;
 }
 ChatBot::ChatBot(ChatBot &&source)
 {
-    std::cout<< "Rule 4 of 5: Move Constructor, moving:" <<&source<< "to instance " << this << std::endl;
+    std::cout<< "Rule 4 of 5: Move Constructor, moving:" <<&source<< " to instance " << this << std::endl;
+    _image = new wxBitmap;
     _image = source._image;
     _chatLogic = source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
     _rootNode = source._rootNode;
-    source._image = NULL;
+    source._image = nullptr;
     source._chatLogic = nullptr;
-    source._rootNode = nullptr;
 }
 
 ChatBot& ChatBot::operator=(ChatBot &&source)
 {
-    std::cout<< "Rule 5 of 5: Move Assignment Operator, moving:" <<&source<< "to instance " << this << std::endl;
+    std::cout<< "Rule 5 of 5: Move Assignment Operator, moving:" <<&source<< " to instance " << this << std::endl;
     if (this == &source)    // boiler plate to protect against self assignment
         return *this;
     delete[] _image;
+    _image = new wxBitmap;
     _image = source._image;
     _chatLogic = source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
     _rootNode = source._rootNode;
-    source._image = NULL;
+    source._image = nullptr;
     source._chatLogic = nullptr;
-    source._rootNode = nullptr;
     return *this;
 
 }
@@ -101,7 +106,7 @@ ChatBot& ChatBot::operator=(ChatBot &&source)
 
 void ChatBot::ReceiveMessageFromUser(std::string message)
 {
-    std::cout<<"in chatbot.cpp Receiving Message from user..."<<std::endl;
+    // debug // std::cout<<"in chatbot.cpp Receiving Message from user..."<<std::endl;
 
     // loop over all edges and keywords and compute Levenshtein distance to query
     typedef std::pair<GraphEdge *, int> EdgeDist;
@@ -137,7 +142,7 @@ void ChatBot::ReceiveMessageFromUser(std::string message)
 
 void ChatBot::SetCurrentNode(GraphNode *node)
 {
-    std::cout<<"in chatbot.cpp Set pointer to current node"<<std::endl;
+    // debug // std::cout<<"in chatbot.cpp Set pointer to current node"<<std::endl;
 
     // update pointer to current node
     _currentNode = node;
@@ -154,7 +159,7 @@ void ChatBot::SetCurrentNode(GraphNode *node)
 
 int ChatBot::ComputeLevenshteinDistance(std::string s1, std::string s2)
 {
-    std::cout<<"in chatbot.cpp Compute Levenshtein distance"<<std::endl;
+    // debug // std::cout<<"in chatbot.cpp Compute Levenshtein distance"<<std::endl;
 
     // convert both strings to upper-case before comparing
     std::transform(s1.begin(), s1.end(), s1.begin(), ::toupper);
@@ -168,7 +173,7 @@ int ChatBot::ComputeLevenshteinDistance(std::string s1, std::string s2)
         return n;
     if (n == 0)
         return m;
-    std::cout << "NEW Costs in chatbot.cpp ChatBot Constructor with filename" << std::endl;
+    // debug // std::cout << "NEW Costs in chatbot.cpp ChatBot Constructor with filename" << std::endl;
 
     size_t *costs = new size_t[n + 1];
 
@@ -200,7 +205,7 @@ int ChatBot::ComputeLevenshteinDistance(std::string s1, std::string s2)
     }
 
     int result = costs[n];
-    std::cout << "                          DELETE  costs in chatbot.cpp not NULL, deleting" << std::endl;    
+    // debug // std::cout << "                          DELETE  costs in chatbot.cpp not NULL, deleting" << std::endl;    
     delete[] costs;
 
     return result;
